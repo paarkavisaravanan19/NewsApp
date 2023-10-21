@@ -72,11 +72,6 @@ fun OnBoardingScreen(
             )
 
 
-
-
-
-
-
             Row(verticalAlignment = Alignment.CenterVertically)
             {
                 val scope = rememberCoroutineScope()
