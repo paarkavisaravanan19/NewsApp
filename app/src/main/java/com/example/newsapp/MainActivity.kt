@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.newsapp.domain.manager.usecases.AppEntryUseCases
+import com.example.newsapp.presentation.navgraph.NavGraph
 import com.example.newsapp.presentation.onboarding.OnBoardingScreen
 import com.example.newsapp.presentation.onboarding.OnBoardingViewModel
 import com.example.newsapp.presentation.onboarding.components.OnBoardingPage
@@ -28,22 +31,22 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var useCases: AppEntryUseCases
+    val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        installSplashScreen()
-        lifecycleScope.launch { useCases.readAppEntry().collect{
-            Log.d("test", it.toString())
-        } }
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                viewModel.splashCondition
+            }
+        }
+
         setContent {
             NewsAppTheme {
                 Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-                    val viewModel: OnBoardingViewModel = hiltViewModel()
-                    OnBoardingScreen(
-                        event = viewModel::onEvent
-                    )
+                    val startDestination = viewModel.startDestination
+                    NavGraph(startDestination = startDestination)
                 }
             }
         }
