@@ -18,6 +18,7 @@ import com.example.newsapp.domain.usecases.news.GetNews
 import com.example.newsapp.domain.usecases.news.NewsUseCases
 import com.example.newsapp.domain.usecases.news.SearchNews
 import com.example.newsapp.domain.usecases.news.SelectArticle
+import com.example.newsapp.domain.usecases.news.SelectArticles
 import com.example.newsapp.domain.usecases.news.UpsertArticle
 import com.example.newsapp.util.Constants.BASE_URL
 import com.example.newsapp.util.Constants.NEWS_DATABASE_NAME
@@ -75,7 +76,8 @@ fun provideNewsApi() : NewsApi{
             searchNews = SearchNews(newsRepository),
             upsertArticle = UpsertArticle(newsDao),
             deleteArticle = DeleteArticle(newsDao),
-            selectArticle = SelectArticle(newsDao)
+            selectArticle = SelectArticles(newsDao),
+            selectArticle2 = SelectArticle(newsDao)
 
         )
     }

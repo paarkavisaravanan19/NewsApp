@@ -21,4 +21,10 @@ interface NewsDao {
     fun getArticles(): Flow<List<Article>>
 
 
+    @Query("SELECT * FROM Article WHERE url=:url")
+    suspend fun getArticle(url: String): Article?
+
+
+
+
 }

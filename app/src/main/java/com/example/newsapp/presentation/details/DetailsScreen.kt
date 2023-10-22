@@ -25,7 +25,6 @@ import com.example.newsapp.R
 import com.example.newsapp.domain.model.Article
 import com.example.newsapp.domain.model.Source
 import com.example.newsapp.presentation.details.components.DetailsTopBar
-import com.example.newsapp.presentation.navgraph.Route
 import com.example.newsapp.presentation.onboarding.Dimens.ArticleImageHeight
 import com.example.newsapp.presentation.onboarding.Dimens.MediumPadding1
 import com.example.newsapp.ui.theme.NewsAppTheme
@@ -61,7 +60,7 @@ fun DetailsScreen(
                                }
                            }
             },
-            onBookmarkClick = { event(DetailsEvent.SaveArticle) },
+            onBookmarkClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
             onBackClick = navigateUp
         )
         LazyColumn(
